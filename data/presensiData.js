@@ -8,4 +8,5 @@ const presensiRecords = [
   }
 ];
 
-module.exports = presensiRecords;
+module.exports = presensiRecords; 
+//Nashrul Fikri
