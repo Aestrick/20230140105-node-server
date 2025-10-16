@@ -8,7 +8,6 @@ const PORT = 3001;
 // Impor router baru
 const presensiRoutes = require("./routes/presensi");
 const reportRoutes = require("./routes/reports");
-const ruteBuku = require("./routes/books"); // Jika kamu masih punya ini dari tugas sebelumnya
 
 // Middleware
 app.use(cors());
@@ -21,7 +20,6 @@ app.get("/", (req, res) => {
 });
 
 // Gunakan router
-app.use("/api/books", ruteBuku); // Jika masih dipakai
 app.use("/api/presensi", presensiRoutes);
 app.use("/api/reports", reportRoutes);
 
