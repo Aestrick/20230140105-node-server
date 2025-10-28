@@ -1,21 +1,37 @@
-// 1. Impor model Presensi dari Sequelize
 const { Presensi } = require("../models");
+const { Op } = require("sequelize"); // 1. Impor Operator
 
 exports.getDailyReport = async (req, res) => {
   try {
-    console.log("Controller: Mengambil data laporan harian dari database...");
+    // 2. Ambil query 'nama' dari URL
+    const { nama } = req.query;
 
-    // 2. Gunakan Presensi.findAll() untuk mengambil semua data dari tabel
-    const allPresensi = await Presensi.findAll({
-        order: [['checkIn', 'DESC']] // Mengurutkan data dari yang terbaru
-    });
+    // 3. Siapkan options query dasar
+    let options = {
+      where: {},
+      order: [['checkIn', 'DESC']]
+    };
+
+    // 4. Jika ada query 'nama', tambahkan filter 'where'
+    if (nama) {
+      options.where.nama = {
+        [Op.like]: `%${nama}%`, // SQL: LIKE '%nama%'
+      };
+    }
+
+    console.log("Controller: Mengambil data laporan harian...", options);
+
+    // 5. Jalankan query dengan options
+    const records = await Presensi.findAll(options);
 
     res.json({
       reportDate: new Date().toLocaleDateString(),
-      data: allPresensi, // Kirim data dari database
+      data: records,
     });
 
   } catch (error) {
-    res.status(500).json({ message: "Terjadi kesalahan pada server", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Gagal mengambil laporan", error: error.message });
   }
 };
