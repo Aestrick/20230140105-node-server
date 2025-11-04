@@ -5,12 +5,14 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Presensi extends Model {
     /**
-    * Helper method for defining associations.
-    * This method is not a part of Sequelize lifecycle.
-    * The `models/index` file will call this method automatically.
-    */
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
     static associate(models) {
-      // define association here
+      // TUGAS: Definisikan relasi di sini
+      // Satu Presensi dimiliki oleh satu User
+      Presensi.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
     }
   }
   Presensi.init({
